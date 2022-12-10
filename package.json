@@ -13,6 +13,7 @@
     "lintfix": "prettier --write --list-different . && yarn lint:js --fix"
   },
   "dependencies": {
+    "@notionhq/client": "^2.2.2",
     "@nuxtjs/axios": "^5.13.6",
     "ant-design-vue": "^1.7.8",
     "core-js": "^3.25.3",

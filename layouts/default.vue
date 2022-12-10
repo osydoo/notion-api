@@ -61,6 +61,7 @@ export default defineComponent({
 .layout {
   min-height: 100%;
   background-color: #fff;
+  position: relative;
 }
 
 .header {
@@ -91,7 +92,6 @@ export default defineComponent({
 }
 
 .body {
-  width: 1200px;
   margin: auto;
 }
 .footer {
