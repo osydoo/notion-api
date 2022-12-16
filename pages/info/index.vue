@@ -2,8 +2,10 @@
   <div class="wrapper">
     <h3>글 목록</h3>
     <ul>
-      <li v-for="(item, index) in results" :key="item.properties.index.id">
-        {{ index + 1 }}. {{ item.properties.body.title[0].plain_text }}
+      <li v-for="(item, index) in results" :key="item.properties.index.number">
+        <NuxtLink :to="`/info/${item.properties.index.number}`">
+          {{ index + 1 }}. {{ item.properties.body.title[0].plain_text }}
+        </NuxtLink>
       </li>
     </ul>
   </div>
