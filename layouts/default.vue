@@ -96,7 +96,7 @@ export default defineComponent({
 }
 .footer {
   position: absolute;
-  bottom: 0;
+  bottom: -160px;
   right: 0;
   left: 0;
   height: 160px;
