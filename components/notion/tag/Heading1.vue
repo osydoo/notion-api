@@ -53,6 +53,7 @@ export default Vue.extend({
 <style>
 .heading1-wrapper {
   display: flex;
+  margin: 2em 0 4px 0;
 }
 .heading1-wrapper > span {
   max-width: 100%;

@@ -1,5 +1,7 @@
 <template>
-  <component :is="tag" :content="content"></component>
+  <div class="notion-wrapper">
+    <component :is="tag" :content="content"></component>
+  </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';
@@ -8,7 +10,7 @@ import Paragraph from './tag/Paragraph.vue';
 import Header1 from './tag/Heading1.vue';
 import Header2 from './tag/Heading2.vue';
 import Header3 from './tag/Heading3.vue';
-import Image from './tag/Image.vue';
+import BlockImage from './tag/BlockImage.vue';
 
 export default Vue.extend({
   props: {
@@ -66,8 +68,7 @@ export default Vue.extend({
           return 'div';
         }
         case ENotionBlockType.image: {
-          console.log(this.content);
-          return Image;
+          return BlockImage;
         }
         default: {
           return 'div';
@@ -77,3 +78,9 @@ export default Vue.extend({
   },
 });
 </script>
+<style>
+.notion-wrapper {
+  width: 800px;
+  padding: 0 96px;
+}
+</style>

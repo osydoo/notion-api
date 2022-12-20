@@ -3,11 +3,9 @@
     <a-layout-header class="header">
       <a-layout-content class="header-content">
         <div class="logo">
-          <NuxtLink to="/">
+          <a href="/">
             <NuxtLogo color="white" />
-
-            <!-- <img src="~assets/images/logo.svg" class="logo" /> -->
-          </NuxtLink>
+          </a>
         </div>
 
         <a-menu
@@ -16,15 +14,15 @@
           :style="{ lineHeight: '64px' }"
         >
           <a-menu-item key="1">
-            <NuxtLink to="/info">info</NuxtLink>
+            <a href="/info">info</a>
           </a-menu-item>
 
           <a-menu-item key="2">
-            <NuxtLink to="/work">work</NuxtLink>
+            <a href="/work">work</a>
           </a-menu-item>
 
           <a-menu-item key="3">
-            <NuxtLink to="/">what?</NuxtLink>
+            <a href="/">what?</a>
           </a-menu-item>
         </a-menu>
       </a-layout-content>

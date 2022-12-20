@@ -1,6 +1,6 @@
 <template>
   <div class="image-wrapper">
-    <img :src="content.image.file.url" alt="" />
+    <img :src="content.image?.external?.url" alt="test" />
     <div class="caption">
       <span
         v-for="(item, index) in content.image.caption"
@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-// import { AnnotationResponse } from '../type/notion';
+import { AnnotationResponse } from '../type/notion';
 
 export default Vue.extend({
   props: {
