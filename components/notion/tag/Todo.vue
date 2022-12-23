@@ -1,6 +1,10 @@
 <template>
-  <div class="paragraph-wrapper">
-    <template v-for="(item, index) in content.paragraph.rich_text"
+  <a-checkbox
+    :v-model:checked="content.to_do.checked"
+    class="to_do-wrapper"
+    @change="onCheckAllChange"
+  >
+    <template v-for="(item, index) in content.to_do.rich_text"
       ><a
         v-if="item.href !== null"
         :key="'a-' + index"
@@ -15,9 +19,9 @@
         :style="pStyle(item.annotations)"
         :class="pClass(item.annotations)"
         >{{ item.plain_text }}</span
-      ><template v-else>{{ item.plain_text }}</template></template
-    >
-  </div>
+      ><template v-else>{{ item.plain_text }}</template>
+    </template>
+  </a-checkbox>
 </template>
 
 <script lang="ts">
@@ -30,7 +34,7 @@ export default Vue.extend({
       type: Object,
       default: () => {
         return {
-          paragraph: {
+          to_do: {
             rich_text: [
               {
                 annotations: {
@@ -57,27 +61,29 @@ export default Vue.extend({
       }; text-decoration: ${annotations.strikethrough ? 'strikethrough' : ''} ${
         annotations.underline ? 'underline' : ''
       };
-      ${annotations.color === 'default' ? '' : 'color: ' + annotations.color} 
-      `;
+        ${annotations.color === 'default' ? '' : 'color: ' + annotations.color}
+        `;
     },
     pClass: (annotations: AnnotationResponse) => {
       return `${annotations.code ? 'code-style' : ''}`;
     },
+    isChecked: () => {},
+    onCheckAllChange: () => {},
   },
 });
 </script>
 <style>
-.paragraph-wrapper {
+.to_do-wrapper {
   max-width: 100%;
-  min-height: 21px;
   word-break: break-word;
   caret-color: rgb(55, 53, 47);
   padding: 3px 2px;
   white-space: pre-wrap;
   color: rgb(55, 53, 47);
   line-height: 1.5;
+  pointer-events: none;
 }
-.paragraph-wrapper > a {
+.to_do-wrapper > a {
   color: rgb(55, 53, 47);
 }
 .code-style {

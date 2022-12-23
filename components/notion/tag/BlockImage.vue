@@ -1,12 +1,20 @@
 <template>
-  <div class="heading1-wrapper">
-    <span
-      v-for="(item, index) in content.heading_1.rich_text"
-      :key="index"
-      :style="pStyle(item.annotations)"
-      :class="pClass(item.annotations)"
-      >{{ item.plain_text }}</span
-    >
+  <div class="image-wrapper">
+    <img
+      v-if="content.image.type === 'external'"
+      :src="content.image?.external?.url"
+      alt="test"
+    />
+    <img v-else :src="content.image?.file?.url" alt="test" />
+    <div class="caption">
+      <span
+        v-for="(item, index) in content.image.caption"
+        :key="index"
+        :style="pStyle(item.annotations)"
+        :class="pClass(item.annotations)"
+        >{{ item.plain_text }}</span
+      >
+    </div>
   </div>
 </template>
 
@@ -20,15 +28,16 @@ export default Vue.extend({
       type: Object,
       default: () => {
         return {
-          header_1: {
-            rich_text: [
+          image: {
+            caption: [
               {
-                annotations: {
-                  bold: false,
-                },
-                plain_text: 'default text',
+                type: 'text',
+                plain_text: '테스트 이미지 1',
               },
             ],
+            file: {
+              url: '',
+            },
           },
         };
       },
@@ -41,8 +50,8 @@ export default Vue.extend({
       }; text-decoration: ${annotations.strikethrough ? 'strikethrough' : ''} ${
         annotations.underline ? 'underline' : ''
       };
-        ${annotations.color === 'default' ? '' : 'color: ' + annotations.color} 
-        `;
+      ${annotations.color === 'default' ? '' : 'color: ' + annotations.color}
+      `;
     },
     pClass: (annotations: AnnotationResponse) => {
       return `${annotations.code ? 'code-style' : ''}`;
@@ -51,23 +60,29 @@ export default Vue.extend({
 });
 </script>
 <style>
-.heading1-wrapper {
-  display: flex;
-  margin: 2em 0 4px 0;
-  caret-color: rgb(55, 53, 47);
+.image-wrapper {
+  height: 100%;
+  width: 100%;
 }
-.heading1-wrapper > span {
+.image-wrapper > img {
+  display: block;
+  object-fit: cover;
+  border-radius: 1px;
+  pointer-events: auto;
+  width: 100%;
+}
+.caption {
   max-width: 100%;
+  width: 100%;
   white-space: pre-wrap;
   word-break: break-word;
   caret-color: rgb(55, 53, 47);
-  padding: 3px 2px;
-  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji',
-    'Segoe UI Symbol';
-  font-weight: 600;
-  font-size: 1.875em;
-  line-height: 1.3;
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(55, 53, 47, 0.65);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 2px;
 }
 .code-style {
   line-height: normal;

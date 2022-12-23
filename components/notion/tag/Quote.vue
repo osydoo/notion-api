@@ -1,11 +1,21 @@
 <template>
-  <div class="heading1-wrapper">
-    <span
-      v-for="(item, index) in content.heading_1.rich_text"
-      :key="index"
-      :style="pStyle(item.annotations)"
-      :class="pClass(item.annotations)"
-      >{{ item.plain_text }}</span
+  <div class="quote-wrapper">
+    <template v-for="(item, index) in content.quote.rich_text"
+      ><a
+        v-if="item.href !== null"
+        :key="'a-' + index"
+        :href="item.href"
+        :style="pStyle(item.annotations)"
+        :class="pClass(item.annotations) + 'link'"
+        target="_blank"
+        >{{ item.plain_text }}</a
+      ><span
+        v-else-if="isStyle(item.annotations)"
+        :key="'span-' + index"
+        :style="pStyle(item.annotations)"
+        :class="pClass(item.annotations)"
+        >{{ item.plain_text }}</span
+      ><template v-else>{{ item.plain_text }}</template></template
     >
   </div>
 </template>
@@ -20,7 +30,7 @@ export default Vue.extend({
       type: Object,
       default: () => {
         return {
-          header_1: {
+          quote: {
             rich_text: [
               {
                 annotations: {
@@ -35,6 +45,12 @@ export default Vue.extend({
     },
   },
   methods: {
+    isStyle: (annotations: AnnotationResponse) => {
+      for (const [, value] of Object.entries(annotations)) {
+        if (value) return true;
+      }
+      return false;
+    },
     pStyle: (annotations: AnnotationResponse) => {
       return `${annotations.bold ? 'font-weight: bold' : ''}; ${
         annotations.italic ? 'font-style: italic' : ''
@@ -51,23 +67,23 @@ export default Vue.extend({
 });
 </script>
 <style>
-.heading1-wrapper {
-  display: flex;
-  margin: 2em 0 4px 0;
-  caret-color: rgb(55, 53, 47);
-}
-.heading1-wrapper > span {
+.quote-wrapper {
   max-width: 100%;
-  white-space: pre-wrap;
+  min-height: 21px;
   word-break: break-word;
   caret-color: rgb(55, 53, 47);
   padding: 3px 2px;
-  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji',
-    'Segoe UI Symbol';
-  font-weight: 600;
-  font-size: 1.875em;
-  line-height: 1.3;
+  white-space: pre-wrap;
+  color: rgb(55, 53, 47);
+  line-height: 1.5;
+  border-left: 3px solid currentcolor;
+  padding-left: 14px;
+  padding-right: 14px;
+  width: 100%;
+  margin: 4px 0;
+}
+.quote-wrapper > a {
+  color: rgb(55, 53, 47);
 }
 .code-style {
   line-height: normal;
@@ -76,5 +92,10 @@ export default Vue.extend({
   border-radius: 3px;
   font-size: 85%;
   padding: 0.2em 0.4em;
+}
+.link {
+  border-bottom: 0.05em solid;
+  border-color: rgba(55, 53, 47, 0.4);
+  opacity: 0.7;
 }
 </style>

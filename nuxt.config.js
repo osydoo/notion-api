@@ -21,10 +21,12 @@ export default {
   plugins: ['@/plugins/antd-ui'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: [{
-    path: '~/components',
-    pathPrefix: false
-  }],
+  components: [
+    {
+      path: '~/components', // will get any components nested in let's say /components/test too
+      pathPrefix: false,
+    },
+  ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -49,6 +51,6 @@ export default {
     ssr: true
   },
 
+  target: 'server',
 
-  target: 'server'
 };

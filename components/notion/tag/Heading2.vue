@@ -56,10 +56,10 @@ export default Vue.extend({
 .heading2-wrapper {
   caret-color: rgb(55, 53, 47);
   display: flex;
+  margin: 1em 0 1px;
 }
 .heading2-wrapper > span {
   max-width: 100%;
-  width: 100%;
   white-space: pre-wrap;
   word-break: break-word;
   caret-color: rgb(55, 53, 47);

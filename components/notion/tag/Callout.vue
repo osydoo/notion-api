@@ -1,22 +1,40 @@
 <template>
-  <div class="paragraph-wrapper">
-    <template v-for="(item, index) in content.paragraph.rich_text"
-      ><a
-        v-if="item.href !== null"
-        :key="'a-' + index"
-        :href="item.href"
-        :style="pStyle(item.annotations)"
-        :class="pClass(item.annotations) + 'link'"
-        target="_blank"
-        >{{ item.plain_text }}</a
-      ><span
-        v-else-if="isStyle(item.annotations)"
-        :key="'span-' + index"
-        :style="pStyle(item.annotations)"
-        :class="pClass(item.annotations)"
-        >{{ item.plain_text }}</span
-      ><template v-else>{{ item.plain_text }}</template></template
-    >
+  <div class="callout-wrapper">
+    <div v-if="content.callout.icon.type === 'emoji'" class="icon">
+      {{ content.callout.icon.emoji }}
+    </div>
+    <div v-else-if="content.callout.icon.type === 'external'" class="icon">
+      <svg width="23" height="23">
+        <image
+          :xlink:href="content.callout.icon.external.url"
+          :src="content.callout.icon.external.url"
+          width="23"
+          height="23"
+        />
+      </svg>
+    </div>
+    <div v-else class="icon">
+      {{ content.callout.icon.file }}
+    </div>
+    <div class="text-wrapper">
+      <template v-for="(item, index) in content.callout.rich_text"
+        ><a
+          v-if="item.href !== null"
+          :key="'a-' + index"
+          :href="item.href"
+          :style="pStyle(item.annotations)"
+          :class="pClass(item.annotations) + 'link'"
+          target="_blank"
+          >{{ item.plain_text }}</a
+        ><span
+          v-else-if="isStyle(item.annotations)"
+          :key="'span-' + index"
+          :style="pStyle(item.annotations)"
+          :class="pClass(item.annotations)"
+          >{{ item.plain_text }}</span
+        ><template v-else>{{ item.plain_text }}</template></template
+      >
+    </div>
   </div>
 </template>
 
@@ -30,7 +48,7 @@ export default Vue.extend({
       type: Object,
       default: () => {
         return {
-          paragraph: {
+          callout: {
             rich_text: [
               {
                 annotations: {
@@ -57,8 +75,8 @@ export default Vue.extend({
       }; text-decoration: ${annotations.strikethrough ? 'strikethrough' : ''} ${
         annotations.underline ? 'underline' : ''
       };
-      ${annotations.color === 'default' ? '' : 'color: ' + annotations.color} 
-      `;
+        ${annotations.color === 'default' ? '' : 'color: ' + annotations.color} 
+        `;
     },
     pClass: (annotations: AnnotationResponse) => {
       return `${annotations.code ? 'code-style' : ''}`;
@@ -67,7 +85,17 @@ export default Vue.extend({
 });
 </script>
 <style>
-.paragraph-wrapper {
+.callout-wrapper {
+  display: flex;
+  width: 100%;
+  border-radius: 3px;
+  background: rgb(241, 241, 239);
+  padding: 16px 16px 16px 12px;
+}
+.icon {
+  padding: 3px 2px;
+}
+.text-wrapper {
   max-width: 100%;
   min-height: 21px;
   word-break: break-word;
@@ -76,8 +104,9 @@ export default Vue.extend({
   white-space: pre-wrap;
   color: rgb(55, 53, 47);
   line-height: 1.5;
+  margin-left: 8px;
 }
-.paragraph-wrapper > a {
+.callout-wrapper > a {
   color: rgb(55, 53, 47);
 }
 .code-style {

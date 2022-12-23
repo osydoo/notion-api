@@ -1,9 +1,21 @@
 <template>
-  <div class="image-wrapper">
-    <img :src="content.image.file.url" alt="" />
+  <div>
+    <div class="code-wrapper">
+      <div
+        v-for="(item, index) in content.code.rich_text"
+        :key="'div-' + index"
+        class="code"
+      >
+        <span
+          :style="pStyle(item.annotations)"
+          :class="pClass(item.annotations)"
+          >{{ item.plain_text }}</span
+        >
+      </div>
+    </div>
     <div class="caption">
       <span
-        v-for="(item, index) in content.image.caption"
+        v-for="(item, index) in content.code.caption"
         :key="index"
         :style="pStyle(item.annotations)"
         :class="pClass(item.annotations)"
@@ -15,7 +27,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-// import { AnnotationResponse } from '../type/notion';
+import { AnnotationResponse } from '../type/notion';
 
 export default Vue.extend({
   props: {
@@ -23,16 +35,15 @@ export default Vue.extend({
       type: Object,
       default: () => {
         return {
-          image: {
-            caption: [
+          code: {
+            rich_text: [
               {
-                type: 'text',
-                plain_text: '테스트 이미지 1',
+                annotations: {
+                  bold: false,
+                },
+                plain_text: 'default text',
               },
             ],
-            file: {
-              url: '',
-            },
           },
         };
       },
@@ -45,8 +56,8 @@ export default Vue.extend({
       }; text-decoration: ${annotations.strikethrough ? 'strikethrough' : ''} ${
         annotations.underline ? 'underline' : ''
       };
-      ${annotations.color === 'default' ? '' : 'color: ' + annotations.color} 
-      `;
+        ${annotations.color === 'default' ? '' : 'color: ' + annotations.color} 
+        `;
     },
     pClass: (annotations: AnnotationResponse) => {
       return `${annotations.code ? 'code-style' : ''}`;
@@ -55,16 +66,30 @@ export default Vue.extend({
 });
 </script>
 <style>
-.image-wrapper {
-  height: 100%;
+.code-wrapper {
+  flex-grow: 1;
+  border-radius: 3px;
+  text-align: left;
+  position: relative;
+  background: rgb(247, 246, 243);
+  min-width: 0px;
   width: 100%;
 }
-.image-wrapper > img {
-  display: block;
-  object-fit: cover;
-  border-radius: 1px;
-  pointer-events: auto;
-  width: 100%;
+.code {
+  flex-grow: 1;
+  flex-shrink: 1;
+  text-align: left;
+  font-family: SFMono-Regular, Menlo, Consolas, 'PT Mono', 'Liberation Mono',
+    Courier, monospace;
+  font-size: 85%;
+  tab-size: 2;
+  padding: 34px 16px 32px 32px;
+  min-height: 1em;
+  color: rgb(55, 53, 47);
+  white-space: pre;
+}
+.code > span {
+  line-height: 1.8;
 }
 .caption {
   max-width: 100%;
