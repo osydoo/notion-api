@@ -24,6 +24,9 @@ export const enum ENotionBlockType {
   heading2 = 'heading_2',
   heading3 = 'heading_3',
   image = 'image',
+  code = 'code',
+  divider = 'divider',
+  video = 'video',
 }
 
 export interface NotionBlock {
@@ -76,3 +79,41 @@ export declare type AnnotationResponse = {
     | 'pink_background'
     | 'red_background';
 };
+
+export const EColor = {
+  default: '#37352F',
+  gray: '#9B9A97',
+  brown: '#64473A',
+  orange: '#D9730D',
+  yellow: '#DFAB01',
+  green: '#0F7B6C',
+  blue: '#0B6E99',
+  purple: '#6940A5',
+  pink: '#AD1A72',
+  red: '#E03E3E',
+};
+
+export const EBackgroundColor = {
+  default: 'rgba(227, 226, 224, 0.5)',
+  gray: '#EBECED',
+  brown: '#E9E5E3',
+  orange: '#FAEBDD',
+  yellow: '#FBF3DB',
+  green: '#DDEDEA',
+  blue: '#DDEBF1',
+  purple: '#EAE4F2',
+  pink: '#F4DFEB',
+  red: '#FBE4E4',
+};
+
+export declare type NOTION_COLOR =
+  | 'default'
+  | 'gray'
+  | 'brown'
+  | 'orange'
+  | 'yellow'
+  | 'green'
+  | 'blue'
+  | 'purple'
+  | 'pink'
+  | 'red';

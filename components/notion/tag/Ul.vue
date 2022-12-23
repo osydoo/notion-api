@@ -1,22 +1,24 @@
 <template>
-  <div class="paragraph-wrapper">
-    <template v-for="(item, index) in content.paragraph.rich_text"
-      ><a
-        v-if="item.href !== null"
-        :key="'a-' + index"
-        :href="item.href"
-        :style="pStyle(item.annotations)"
-        :class="pClass(item.annotations) + 'link'"
-        target="_blank"
-        >{{ item.plain_text }}</a
-      ><span
-        v-else-if="isStyle(item.annotations)"
-        :key="'span-' + index"
-        :style="pStyle(item.annotations)"
-        :class="pClass(item.annotations)"
-        >{{ item.plain_text }}</span
-      ><template v-else>{{ item.plain_text }}</template></template
-    >
+  <div class="bulleted_list_item-wrapper">
+    <div class="bulleted_list_item">
+      <template v-for="(item, index) in content.bulleted_list_item.rich_text"
+        ><a
+          v-if="item.href !== null"
+          :key="'a-' + index"
+          :href="item.href"
+          :style="pStyle(item.annotations)"
+          :class="pClass(item.annotations) + 'link'"
+          target="_blank"
+          >{{ item.plain_text }}</a
+        ><span
+          v-else-if="isStyle(item.annotations)"
+          :key="'span-' + index"
+          :style="pStyle(item.annotations)"
+          :class="pClass(item.annotations)"
+          >{{ item.plain_text }}</span
+        ><template v-else>{{ item.plain_text }}</template></template
+      >
+    </div>
   </div>
 </template>
 
@@ -30,7 +32,7 @@ export default Vue.extend({
       type: Object,
       default: () => {
         return {
-          paragraph: {
+          bulleted_list_item: {
             rich_text: [
               {
                 annotations: {
@@ -57,8 +59,10 @@ export default Vue.extend({
       }; text-decoration: ${annotations.strikethrough ? 'strikethrough' : ''} ${
         annotations.underline ? 'underline' : ''
       };
-      ${annotations.color === 'default' ? '' : 'color: ' + annotations.color} 
-      `;
+          ${
+            annotations.color === 'default' ? '' : 'color: ' + annotations.color
+          }
+          `;
     },
     pClass: (annotations: AnnotationResponse) => {
       return `${annotations.code ? 'code-style' : ''}`;
@@ -67,20 +71,38 @@ export default Vue.extend({
 });
 </script>
 <style>
-.paragraph-wrapper {
+.bulleted_list_item-wrapper {
+  display: flex;
   max-width: 100%;
-  min-height: 21px;
   word-break: break-word;
   caret-color: rgb(55, 53, 47);
   padding: 3px 2px;
-  white-space: pre-wrap;
   color: rgb(55, 53, 47);
   line-height: 1.5;
+  pointer-events: none;
+  position: relative;
 }
-.paragraph-wrapper > a {
+.bulleted_list_item {
+  margin-left: 18px;
+}
+.bulleted_list_item::before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  width: 5px;
+  height: 5px;
+  border: 3px solid rgb(55, 53, 47);
+  position: absolute;
+  left: 0;
+  top: 14px;
+  border-radius: 100%;
+  margin-left: 4px;
+}
+.bulleted_list_item-wrapper > a {
   color: rgb(55, 53, 47);
 }
-.code-style {
+.bulleted_list_item-wrapper > a,
+.bulleted_list_item-wrapper > span .code-style {
   line-height: normal;
   background: rgba(135, 131, 120, 0.15);
   color: #eb5757;

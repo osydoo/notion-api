@@ -58,7 +58,9 @@ export default Vue.extend({
 .heading3-wrapper {
   caret-color: rgb(55, 53, 47);
   display: flex;
+  margin: 1.4em 0 1px 0;
 }
+
 .heading3-wrapper > span {
   max-width: 100%;
   white-space: pre-wrap;
@@ -72,6 +74,7 @@ export default Vue.extend({
   font-size: 1.25em;
   line-height: 1.3;
 }
+
 .code-style {
   font-family: 'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono',
     Courier, monospace;

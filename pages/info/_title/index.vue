@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <Title :content="properties" :user="user"></Title>
     <Notion v-for="(item, index) in results" :key="item.id" :content="item">
       {{ index + 1 }}
     </Notion>
@@ -10,9 +11,10 @@
 import Vue from 'vue';
 import { Client } from '@notionhq/client';
 import Notion from '../../../components/notion/Notion.vue';
+import Title from '~/components/notion/tag/Title.vue';
 
 export default Vue.extend({
-  components: { Notion },
+  components: { Notion, Title },
   async asyncData({ error, route }) {
     if (process.server) {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -31,13 +33,18 @@ export default Vue.extend({
             },
           },
         });
+        console.log(response.results[0].properties.Tags);
         const pageId = response.results[0].id;
         const block = await notion.blocks.children.list({
           block_id: pageId,
         });
-        console.log(block.results);
+        const user = await notion.users.retrieve({
+          user_id: response.results[0].created_by.id,
+        });
         return {
+          properties: response.results[0].properties,
           results: block.results,
+          user,
         };
       } catch (e) {
         error({
@@ -48,12 +55,13 @@ export default Vue.extend({
     }
   },
   data: () => ({
-    title: '',
+    title: {},
     results: [],
     params: {
       infoIndex: '',
     },
   }),
+  methods: {},
 });
 </script>
 

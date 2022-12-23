@@ -4,7 +4,7 @@
       <a-layout-content class="header-content">
         <div class="logo">
           <a href="/">
-            <NuxtLogo color="white" />
+            <NuxtLogo color="black" />
           </a>
         </div>
 
@@ -14,15 +14,7 @@
           :style="{ lineHeight: '64px' }"
         >
           <a-menu-item key="1">
-            <a href="/info">info</a>
-          </a-menu-item>
-
-          <a-menu-item key="2">
-            <a href="/work">work</a>
-          </a-menu-item>
-
-          <a-menu-item key="3">
-            <a href="/">what?</a>
+            <a href="/info">글</a>
           </a-menu-item>
         </a-menu>
       </a-layout-content>
@@ -64,7 +56,9 @@ export default defineComponent({
 
 .header {
   display: block;
-  background-color: rgba(150, 111, 51, 0.5);
+  background-color: #fff;
+  border-bottom: 1px solid rgba(55, 53, 47, 0.16);
+  padding-bottom: 65px;
 }
 
 .header-content {
@@ -87,6 +81,11 @@ export default defineComponent({
 .navigation {
   margin-left: 50px;
   background-color: rgba(0, 0, 0, 0);
+}
+
+.ant-menu-horizontal > .ant-menu-item:hover {
+  color: rgb(55, 53, 47) !important;
+  font-weight: 700 !important;
 }
 
 .body {

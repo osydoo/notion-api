@@ -1,12 +1,27 @@
 <template>
-  <div class="heading1-wrapper">
-    <span
-      v-for="(item, index) in content.heading_1.rich_text"
-      :key="index"
-      :style="pStyle(item.annotations)"
-      :class="pClass(item.annotations)"
-      >{{ item.plain_text }}</span
-    >
+  <div>
+    <div class="code-wrapper">
+      <div
+        v-for="(item, index) in content.code.rich_text"
+        :key="'div-' + index"
+        class="code"
+      >
+        <span
+          :style="pStyle(item.annotations)"
+          :class="pClass(item.annotations)"
+          >{{ item.plain_text }}</span
+        >
+      </div>
+    </div>
+    <div class="caption">
+      <span
+        v-for="(item, index) in content.code.caption"
+        :key="index"
+        :style="pStyle(item.annotations)"
+        :class="pClass(item.annotations)"
+        >{{ item.plain_text }}</span
+      >
+    </div>
   </div>
 </template>
 
@@ -20,7 +35,7 @@ export default Vue.extend({
       type: Object,
       default: () => {
         return {
-          header_1: {
+          code: {
             rich_text: [
               {
                 annotations: {
@@ -51,23 +66,43 @@ export default Vue.extend({
 });
 </script>
 <style>
-.heading1-wrapper {
-  display: flex;
-  margin: 2em 0 4px 0;
-  caret-color: rgb(55, 53, 47);
+.code-wrapper {
+  flex-grow: 1;
+  border-radius: 3px;
+  text-align: left;
+  position: relative;
+  background: rgb(247, 246, 243);
+  min-width: 0px;
+  width: 100%;
 }
-.heading1-wrapper > span {
+.code {
+  flex-grow: 1;
+  flex-shrink: 1;
+  text-align: left;
+  font-family: SFMono-Regular, Menlo, Consolas, 'PT Mono', 'Liberation Mono',
+    Courier, monospace;
+  font-size: 85%;
+  tab-size: 2;
+  padding: 34px 16px 32px 32px;
+  min-height: 1em;
+  color: rgb(55, 53, 47);
+  white-space: pre;
+}
+.code > span {
+  line-height: 1.8;
+}
+.caption {
   max-width: 100%;
+  width: 100%;
   white-space: pre-wrap;
   word-break: break-word;
   caret-color: rgb(55, 53, 47);
-  padding: 3px 2px;
-  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji',
-    'Segoe UI Symbol';
-  font-weight: 600;
-  font-size: 1.875em;
-  line-height: 1.3;
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(55, 53, 47, 0.65);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 2px;
 }
 .code-style {
   line-height: normal;

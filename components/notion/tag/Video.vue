@@ -1,14 +1,17 @@
 <template>
-  <div class="image-wrapper">
-    <img
-      v-if="content.image.type === 'external'"
-      :src="content.image?.external?.url"
-      alt="test"
-    />
-    <img v-else :src="content.image?.file?.url" alt="test" />
+  <div class="video-wrapper">
+    <iframe
+      width="600"
+      height="400"
+      :src="content.video.external.url"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
     <div class="caption">
       <span
-        v-for="(item, index) in content.image.caption"
+        v-for="(item, index) in content.video.caption"
         :key="index"
         :style="pStyle(item.annotations)"
         :class="pClass(item.annotations)"
@@ -28,11 +31,11 @@ export default Vue.extend({
       type: Object,
       default: () => {
         return {
-          image: {
+          video: {
             caption: [
               {
                 type: 'text',
-                plain_text: '테스트 이미지 1',
+                plain_text: '테스트 비디오 1',
               },
             ],
             file: {
@@ -50,8 +53,8 @@ export default Vue.extend({
       }; text-decoration: ${annotations.strikethrough ? 'strikethrough' : ''} ${
         annotations.underline ? 'underline' : ''
       };
-      ${annotations.color === 'default' ? '' : 'color: ' + annotations.color}
-      `;
+        ${annotations.color === 'default' ? '' : 'color: ' + annotations.color}
+        `;
     },
     pClass: (annotations: AnnotationResponse) => {
       return `${annotations.code ? 'code-style' : ''}`;
@@ -60,11 +63,11 @@ export default Vue.extend({
 });
 </script>
 <style>
-.image-wrapper {
+.video-wrapper {
   height: 100%;
   width: 100%;
 }
-.image-wrapper > img {
+.video-wrapper > img {
   display: block;
   object-fit: cover;
   border-radius: 1px;
